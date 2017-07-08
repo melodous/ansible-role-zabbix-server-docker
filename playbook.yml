@@ -1,0 +1,6 @@
+---
+- hosts: all
+  roles:
+    - repos
+    - docker
+    - zabbix-server-docker

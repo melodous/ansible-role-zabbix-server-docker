@@ -1,0 +1,6 @@
+---
+
+- include: configure.yml
+
+- include: monitoring.yml
+  when: (monitoring|default('true') and zabbix-server-docker_monitoring)
