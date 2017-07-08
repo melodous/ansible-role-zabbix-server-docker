@@ -1,0 +1,13 @@
+[Unit]
+Description=Zabbix-frontend container
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+RestartSec=1s
+ExecStart=/usr/bin/docker start -a zabbix-frontend
+ExecStop=/usr/bin/docker stop -t 2 zabbix-frontend
+
+[Install]
+WantedBy=multi-user.target

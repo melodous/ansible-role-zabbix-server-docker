@@ -1,0 +1,108 @@
+---
+- name: Pulling docker images
+  shell: docker pull "{{ item }}"
+  register: result_docker
+  changed_when: False
+  until: result_docker|success
+  retries: 3
+  delay: 1
+  with_items:
+    - "{{ zabbix_frontend_docker_image }}:{{ zabbis_frontend_version }}"
+    - "{{ zabbix_server_docker_image }}:{{ zabbis_server_version }}"
+    - "{{ postgres_docker_image }}:{{ postgres_version }}"
+
+- name: Start postgresq containers
+  docker_container:
+    name: postgres
+    image: "{{ postgres_docker_image }}:{{ postgres_version }}"
+    network_mode: host
+    state: started
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: "20m"
+    labels: "{{ postgres_docker_labels }}"
+    restart_policy: unless-stopped
+    restart_retries: 3
+    volumes:
+      - /etc/hosts:/etc/hosts
+      - /etc/localtime:/etc/localtime
+    env:
+      POSTGRES_USER: "{{ postgres_zabbix_user }}"
+      POSTGRES_PASSWORD: "{{ postgres_zabbix_password }}"
+
+- name: Create postgres init-script rhel7
+  copy: src=postgres_rhel7 dest=/usr/lib/systemd/system/postgres.service owner=root group=root mode=0644
+  when:
+    ansible_distribution_major_version|int > 6
+    and ansible_os_family == 'RedHat'
+
+- name: Enable postgres init-scripts
+  service: name=postgres enabled=yes state=started
+
+- name: Start zabbis-server containers
+  docker_container:
+    name: zabbix-server
+    image: "{{ zabbix_server_docker_image }}:{{ zabbis_server_version }}"
+    network_mode: host
+    state: started
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: "20m"
+    labels: "{{ zabbix_server_docker_labels }}"
+    restart_policy: unless-stopped
+    restart_retries: 3
+    volumes:
+      - /etc/hosts:/etc/hosts
+      - /etc/localtime:/etc/localtime
+    env:
+      POSTGRES_USER: "{{ postgres_zabbix_user }}"
+      POSTGRES_PASSWORD: "{{ postgres_zabbix_password }}"
+      DB_SERVER_HOST: "{{ postgres_host }}"
+      ZBX_SERVER_HOST: "{{ zabbix_server_host }}"
+
+
+- name: Create zabbix-server init-script rhel7
+  copy: src=zabbix-server_rhel7 dest=/usr/lib/systemd/system/zabbix-server.service owner=root group=root mode=0644
+  when:
+    ansible_distribution_major_version|int > 6
+    and ansible_os_family == 'RedHat'
+
+- name: Enable zabbix-server init-scripts
+  service: name=zabbix-server enabled=yes state=started
+
+
+- name: Start zabbix-frontend containers
+  docker_container:
+    name: zabbix-frontend
+    image: "{{ zabbix_frontend_docker_image }}:{{ zabbis_frontend_version }}"
+    network_mode: host
+    state: started
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: "20m"
+    labels: "{{ zabbix_frontend_docker_labels }}"
+    restart_policy: unless-stopped
+    restart_retries: 3
+    volumes:
+      - /etc/hosts:/etc/hosts
+      - /etc/localtime:/etc/localtime
+    env:
+      POSTGRES_USER: "{{ postgres_zabbix_user }}"
+      POSTGRES_PASSWORD: "{{ postgres_zabbix_password }}"
+      DB_SERVER_HOST: "{{ postgres_host }}"
+      ZBX_SERVER_HOST: "{{ zabbix_server_host }}"
+      TZ: "{{ zabbix_frontend_timezone }}"
+
+
+- name: Create zabbix-frontend init-script rhel7
+  copy: src=zabbix-frontend_rhel7 dest=/usr/lib/systemd/system/zabbix-frontend.service owner=root group=root mode=0644
+  when:
+    ansible_distribution_major_version|int > 6
+    and ansible_os_family == 'RedHat'
+
+- name: Enable zabbix-frontend init-scripts
+  service: name=zabbix-frontend enabled=yes state=started
+
