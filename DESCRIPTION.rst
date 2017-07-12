@@ -17,12 +17,11 @@ Docker engine configure and running.
 Dependencies
 ------------
 
+- repos
 - docker
 
 Example Playbook
 ----------------
-
-Install all compenent with default values
 
 .. code::
 

@@ -10,7 +10,6 @@ and `human-readable changelog <http://keepachangelog.com/en/0.3.0/>`__.
 zabbix-server-docker master - unreleased
 ----------------------------------------
 
-
 Added
 ~~~~~
 
