@@ -14,20 +14,20 @@ zabbix-server-docker master - unreleased
 Added
 ~~~~~
 
-- Create postgresq contaianer
-- Create zabbix-server container
-- Create zabbix-frontend container
+- First add
 
 Changed
 ~~~~~~~
 
 - First change
 
-zabbix-server-docker v0.0.0 - DATE
----------------------------------------
+zabbix-server-docker v0.0.1 - 2017/07/12
+----------------------------------------
 
 Added
 ~~~~~
 
-- Initial version
-
+- Create postgresq contaianer
+- Create zabbix-server container
+- Create zabbix-frontend container
+- Updated documentation

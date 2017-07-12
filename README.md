@@ -1,8 +1,8 @@
-Welcome to Redis Ansible Role’s documentation!
-==============================================
+Welcome to zabbix-server-docker Ansible Role’s documentation!
+=============================================================
 
-Role Name
----------
+Zabbix Server Docker
+--------------------
 
 This role install a zabbix environment running on containers. It create
 three containers:
@@ -15,21 +15,19 @@ This role is mainly used by CI to test the monitoring of the components.
 
 ### Requirements
 
-N/A
+Docker engine configure and running.
 
 ### Dependencies
 
--   repos
 -   docker
 
 ### Example Playbook
 
-Including an example of how to use your role (for instance, with
-variables passed in as parameters) is always nice for users too:
+Install all compenent with default values
 
     - hosts: servers
       roles:
-        - role: username.rolename, x: 42 }
+        - role: zabbix-server-docker
 
 Zabbix Server ansible role default variables
 --------------------------------------------
@@ -150,25 +148,27 @@ changelog.
 
 ##### Added
 
--   Create postgresq contaianer
--   Create zabbix-server container
--   Create zabbix-frontend container
+-   First add
 
 ##### Changed
 
 -   First change
 
-### zabbix-server-docker v0.0.0 - DATE
+### zabbix-server-docker v0.0.1 - 2017/07/12
 
 ##### Added
 
--   Initial version
+-   Create postgresq contaianer
+-   Create zabbix-server container
+-   Create zabbix-frontend container
+-   Updated documentation
 
 Copyright
 ---------
 
 zabbix-server-docker
 
-Copyright (C) DATE User/Company &lt;<email@email.com>&gt;
+Copyright (C) 2017/07/12 Raúl Melo
+&lt;<raul.melo@opensolutions.cloud>&gt;
 
 LICENSE
