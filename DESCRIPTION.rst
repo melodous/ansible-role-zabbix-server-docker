@@ -1,5 +1,5 @@
-Role Name
-=========
+Zabbix Server Docker
+====================
 
 This role install a zabbix environment running on containers. It create three containers:
 
@@ -12,21 +12,20 @@ This role is mainly used by CI to test the monitoring of the components.
 Requirements
 ------------
 
-N/A
+Docker engine configure and running.
 
 Dependencies
 ------------
 
-- repos
 - docker
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Install all compenent with default values
 
 .. code::
 
   - hosts: servers
     roles:
-      - role: username.rolename, x: 42 }
+      - role: zabbix-server-docker
