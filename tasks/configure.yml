@@ -6,6 +6,8 @@
   until: result_docker|success
   retries: 3
   delay: 1
+  tags:
+    - skip_ansible_lint
   with_items:
     - "{{ zabbix_frontend_docker_image }}:{{ zabbis_frontend_version }}"
     - "{{ zabbix_server_docker_image }}:{{ zabbis_server_version }}"
@@ -105,4 +107,3 @@
 
 - name: Enable zabbix-frontend init-scripts
   service: name=zabbix-frontend enabled=yes state=started
-

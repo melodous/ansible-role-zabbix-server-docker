@@ -1,12 +1,19 @@
-import testinfra.utils.ansible_runner
+def test_zabbix_frontend_running_and_enabled(Command, Service):
+    # Check that zabbix-frontend service is running and enabled
+    zabbix_frontend_service = Service("zabbix-frontend")
+    assert zabbix_frontend_service.is_running
+    assert zabbix_frontend_service.is_enabled
 
-testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    '.molecule/ansible_inventory').get_hosts('all')
+
+def test_zabbix_server_running_and_enabled(Command, Service):
+    # Check that zabbix-server service is running and enabled
+    zabbix_server_service = Service("zabbix-server")
+    assert zabbix_server_service.is_running
+    assert zabbix_server_service.is_enabled
 
 
-def test_hosts_file(File):
-    f = File('/etc/hosts')
-
-    assert f.exists
-    assert f.user == 'root'
-    assert f.group == 'root'
+def test_postgres_server_running_and_enabled(Command, Service):
+    # Check that postgres service is running and enabled
+    postgres_service = Service("postgres")
+    assert postgres_service.is_running
+    assert postgres_service.is_enabled

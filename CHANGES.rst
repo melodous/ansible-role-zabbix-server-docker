@@ -20,6 +20,15 @@ Changed
 
 - First change
 
+zabbix-server-docker v0.0.2 - 2017/07/13
+----------------------------------------
+
+Added
+~~~~~ 
+
+- Updated testinfra tests
+
+
 zabbix-server-docker v0.0.1 - 2017/07/12
 ----------------------------------------
 
